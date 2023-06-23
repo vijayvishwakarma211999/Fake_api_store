@@ -5,6 +5,7 @@ import Axios from "axios";
 import { useSelector } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
 import Routes from "./routes";
+import  { Toaster } from 'react-hot-toast';
 
 function App() {
   const RouteComonenet = ({ token }) => {
@@ -24,6 +25,7 @@ function App() {
       <Router>
         <RouteComonenet token={token} />
       </Router>
+      <Toaster/>
       {/* <Login/> */}
     </>
   );

@@ -1,12 +1,14 @@
 import React from 'react'
 import { ChevronLeft, ChevronRight, Inbox, Mail } from '@mui/icons-material';
-import { Divider, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, styled } from '@mui/material';
+import { Button, Divider, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, styled } from '@mui/material';
 import MuiDrawer from '@mui/material/Drawer';
 import { useNavigate } from 'react-router-dom';
+import { removeToken } from '../../../redux/slice/auth.slice';
+import { useDispatch } from 'react-redux';
 
 const Sidebar = ({ open, setOpen }) => {
     const navigate = useNavigate()
-// const dispatch = useDispatch()
+const dispatch = useDispatch()
   const drawerWidth = 240;
 
   const openedMixin = (theme) => ({
@@ -54,6 +56,10 @@ const Sidebar = ({ open, setOpen }) => {
     // necessary for content to be below app bar
     ...theme.mixins.toolbar,
   }));
+
+  const handelLogout=()=>{
+    dispatch(removeToken())
+  }
   return (
     <>
            <Drawer variant="permanent" open={open}>
@@ -85,7 +91,9 @@ const Sidebar = ({ open, setOpen }) => {
                 <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
               </ListItemButton>
             </ListItem>
+           
           ))}
+           <Button variant="outlined" onClick={handelLogout}>log out</Button>
         </List>
         <Divider />
 

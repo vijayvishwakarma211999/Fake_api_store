@@ -1,4 +1,5 @@
 import { Copyright, LockOutlined } from "@mui/icons-material";
+import toast from 'react-hot-toast';
 import {
   Avatar,
   Box,
@@ -8,17 +9,27 @@ import {
   CssBaseline,
   FormControlLabel,
   Grid,
+  Link,
   TextField,
   Typography,
 } from "@mui/material";
 import { Formik } from "formik";
 import React from "react";
 import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { authLoginThunk } from "../../redux/asyncThunk/authAsync";
+import * as Yup from "yup";
+import { ROUTE_DEFINATION } from "../../utils/constant/routes.constant";
 
 const Login = () => {
-   const dispatch = useDispatch()
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const LoginSchema = Yup.object().shape({
+    email: Yup.string()
+      .email("Invalid email")
+      .required("please enter your email"),
+    password: Yup.string().required("Required"),
+  });
   return (
     <>
       <Container component="main" maxWidth="xs">
@@ -39,16 +50,32 @@ const Login = () => {
           </Typography>
 
           <Formik
-            initialValues={{ email: "", password: "" }}
+            initialValues={{ email: "", password: "", remember: false }}
+            validationSchema={LoginSchema}
             onSubmit={(values) => {
               console.log(values, "____________login values");
-              dispatch(authLoginThunk(values)).unwrap().then((res)=>{
-                console.log(res,"_______________")
-              })
-              
+              if (values.remember === true) {
+                localStorage.setItem("email", values.email);
+                localStorage.setItem("password", values.password);
+              }
+              dispatch(authLoginThunk(values))
+                .unwrap()
+                .then((res) => {
+                  toast.success("Your Loggedin Successfully");
+                })
+                .catch((err) => {
+                  toast.error("Your Loggedin Failed")
+                });
             }}
           >
-            {({ values, errors, handleSubmit, handleChange, handleBlur }) => (
+            {({
+              values,
+              errors,
+              handleSubmit,
+              handleChange,
+              handleBlur,
+              touched,
+            }) => (
               <form onSubmit={handleSubmit}>
                 <Box
                   // onSubmit={handleSubmit}
@@ -65,6 +92,8 @@ const Login = () => {
                     onBlur={handleBlur}
                     autoComplete="email"
                     autoFocus
+                    error={touched.email && Boolean(errors.email)}
+                    helperText={touched.email && errors.email}
                   />
                   <TextField
                     margin="normal"
@@ -77,9 +106,18 @@ const Login = () => {
                     type="password"
                     id="password"
                     autoComplete="current-password"
+                    error={touched.password && Boolean(errors.password)}
+                    helperText={touched.password && errors.password}
                   />
                   <FormControlLabel
-                    control={<Checkbox value="remember" color="primary" />}
+                    control={
+                      <Checkbox
+                        value={values.remember}
+                        name="remember"
+                        onChange={handleChange}
+                        color="primary"
+                      />
+                    }
                     label="Remember me"
                   />
                   <Button
@@ -90,18 +128,18 @@ const Login = () => {
                   >
                     Sign In
                   </Button>
-                  {/* <Grid container>
-              <Grid item xs>
-                <Link href="#" variant="body2">
-                  Forgot password?
-                </Link>
-              </Grid>
-              <Grid item>
-                <Link href="#" variant="body2">
-                  {"Don't have an account? Sign Up"}
-                </Link>
-              </Grid>
-            </Grid> */}
+                  <Grid container>
+                    <Grid item xs>
+                      <Link href="#" variant="body2">
+                        Forgot password?
+                      </Link>
+                    </Grid>
+                    <Grid item>
+                      <Link href={ROUTE_DEFINATION.SIGNUP} variant="body2">
+                        {"Don't have an account? Sign Up"}
+                      </Link>
+                    </Grid>
+                  </Grid>
                 </Box>
               </form>
             )}

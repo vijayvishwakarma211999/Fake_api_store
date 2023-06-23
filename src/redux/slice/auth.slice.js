@@ -27,6 +27,8 @@ export const AuthSlice = createSlice({
     builder.addCase(authLoginThunk.rejected, (state, action) => {
       state.authLoginStatus = THUNK_STATUS.FAILED;
     });
+
+ 
   },
 });
 export const { removeToken } = AuthSlice.actions;

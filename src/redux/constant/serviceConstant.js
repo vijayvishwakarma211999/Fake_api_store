@@ -1,5 +1,6 @@
 export let SERVICE_ROUTES = {
-  AUTH_LOGIN: "auth/login  ",
+  AUTH_LOGIN: "auth/login",
+  USERS:"users/"
 };
 export const METHODS = {
   GET: "GET",
