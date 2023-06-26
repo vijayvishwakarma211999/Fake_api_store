@@ -10,7 +10,7 @@ import  { Toaster } from 'react-hot-toast';
 function App() {
   const RouteComonenet = ({ token }) => {
     if (token) {
-      Axios.defaults.headers.common["Authorization"] = "Bearer " + token;
+      Axios.defaults.headers.common["Authorization"] = "Bearer " + token.access_token;
       return <Routes isLoggedIn={true} />;
     } else {
       return <Routes isLoggedIn={false} />;

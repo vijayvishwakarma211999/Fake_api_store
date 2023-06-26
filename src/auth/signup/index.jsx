@@ -45,10 +45,10 @@ const SignUp = () => {
               password: "",
             }}
             onSubmit={(values) => {
-                console.log(values,"values------")
+              // console.log(values,"values------")
               values.avatar =
                 "https://api.lorem.space/image/face?w=640&h=480&r=867";
-        dispatch(userSignUpThunk(values))
+              dispatch(userSignUpThunk(values));
             }}
           >
             {({ handleSubmit, errors, handleChange, values }) => (
@@ -59,7 +59,6 @@ const SignUp = () => {
                       <TextField
                         autoComplete="given-name"
                         name="name"
-                        
                         fullWidth
                         id="name"
                         label="Name"

@@ -55,15 +55,3 @@ const Appbar = ({ open, setOpen }) => {
 
 export default Appbar;
 
-
-// import React from 'react'
-
-// const AppBars = () => {
-//   return (
-//     <div>
-//       <h1>app bar</h1>
-//     </div>
-//   )
-// }
-
-// export default AppBars

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useRoutes } from "react-router-dom";
-import { PrivateRoutes } from "./privateRoutes";
+import roleBasedRoutes from "./privateRoutes";
 import PublicRoutes from "./publicRoutes";
 
 
@@ -11,17 +11,20 @@ import PublicRoutes from "./publicRoutes";
 // ==================================|| ROUTING RENDER ||================================== //
 
 export default function Routes({isLoggedIn}) {
-//   const user = useSelector((state)=> state?.Profile.data)
-//   const  role = user?.role.toUpperCase()
+  const user = useSelector((state)=> state?.auth?.profile)
+  const  roleRoute = user?.role
+  console.log(roleRoute,"routes ")
   // console.log(RoleRoutes,"_____________routes userr")
+  // const role="ADMIN"
+  const role="ADMIN"
   const [currentRoutes, setCurrentRoutes] = useState([]);
   useEffect(() => {
     if (isLoggedIn) {
-      setCurrentRoutes([PrivateRoutes]);
+      setCurrentRoutes(roleBasedRoutes(role));
     } else {
-      setCurrentRoutes([PublicRoutes]);
+      setCurrentRoutes(PublicRoutes);
     } 
-  }, [isLoggedIn]);
+  }, [role,isLoggedIn]);
 
-  return useRoutes(currentRoutes);
+  return useRoutes([currentRoutes]);
 }

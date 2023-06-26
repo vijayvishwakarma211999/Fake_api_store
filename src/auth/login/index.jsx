@@ -1,5 +1,5 @@
 import { Copyright, LockOutlined } from "@mui/icons-material";
-import toast from 'react-hot-toast';
+import toast from "react-hot-toast";
 import {
   Avatar,
   Box,
@@ -17,7 +17,7 @@ import { Formik } from "formik";
 import React from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { authLoginThunk } from "../../redux/asyncThunk/authAsync";
+import { authLoginThunk, ProfileThunk } from "../../redux/asyncThunk/authAsync";
 import * as Yup from "yup";
 import { ROUTE_DEFINATION } from "../../utils/constant/routes.constant";
 
@@ -53,7 +53,6 @@ const Login = () => {
             initialValues={{ email: "", password: "", remember: false }}
             validationSchema={LoginSchema}
             onSubmit={(values) => {
-              console.log(values, "____________login values");
               if (values.remember === true) {
                 localStorage.setItem("email", values.email);
                 localStorage.setItem("password", values.password);
@@ -61,10 +60,18 @@ const Login = () => {
               dispatch(authLoginThunk(values))
                 .unwrap()
                 .then((res) => {
+                  dispatch(ProfileThunk())
+                    .unwrap()
+                    .then((res) => {
+                      console.log(res, "profile________----");
+                    })
+                    .catch((err) => {
+                      console.log(err, "errr_____----------------");
+                    });
                   toast.success("Your Loggedin Successfully");
                 })
                 .catch((err) => {
-                  toast.error("Your Loggedin Failed")
+                  toast.error("Your Loggedin Failed");
                 });
             }}
           >

@@ -1,6 +1,10 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { ASYNC_ROUTES } from "../constant/reduxConstant";
-import { AuthService, UserSignUpService } from "../service/auth.service";
+import {
+  AuthService,
+  ProfileService,
+  UserSignUpService,
+} from "../service/auth.service";
 
 export const authLoginThunk = createAsyncThunk(
   ASYNC_ROUTES.AUTH_LOGIN,
@@ -20,6 +24,19 @@ export const userSignUpThunk = createAsyncThunk(
   async (payload, { rejectWithValue }) => {
     try {
       const response = await UserSignUpService(payload);
+      return response;
+    } catch (err) {
+      return rejectWithValue(err);
+    }
+  }
+);
+
+// Profile
+export const ProfileThunk = createAsyncThunk(
+  ASYNC_ROUTES.PROFILE,
+  async (payload, { rejectWithValue }) => {
+    try {
+      const response = await ProfileService(payload);
       return response;
     } catch (err) {
       return rejectWithValue(err);

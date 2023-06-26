@@ -1,6 +1,7 @@
 export const ASYNC_ROUTES ={
     AUTH_LOGIN:"login",
-    USERS:"users"
+    USERS:"users",
+    PROFILE:"profile",
 };
 export const THUNK_STATUS ={
     LOADING:"loading",

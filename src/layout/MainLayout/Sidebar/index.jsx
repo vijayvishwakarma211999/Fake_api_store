@@ -5,6 +5,7 @@ import MuiDrawer from '@mui/material/Drawer';
 import { useNavigate } from 'react-router-dom';
 import { removeToken } from '../../../redux/slice/auth.slice';
 import { useDispatch } from 'react-redux';
+import ItemList from '../../ItemList';
 
 const Sidebar = ({ open, setOpen }) => {
     const navigate = useNavigate()
@@ -70,7 +71,7 @@ const dispatch = useDispatch()
         </DrawerHeader>
         <Divider />
         <List>
-          {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
+          {/* {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
             <ListItem key={text} disablePadding sx={{ display: 'block' }}>
               <ListItemButton
                 sx={{
@@ -92,7 +93,9 @@ const dispatch = useDispatch()
               </ListItemButton>
             </ListItem>
            
-          ))}
+          ))} */}
+
+<ItemList {...{open,setOpen}}/>
            <Button variant="outlined" onClick={handelLogout}>log out</Button>
         </List>
         <Divider />
